@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List (Single User)</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%232563eb'/%3E%3Ctext x='32' y='41' font-size='36' text-anchor='middle' fill='white'%3E%E2%9C%93%3C/text%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+  <!-- พื้นหลังของแอป -->
+  <div id="app-shell">
+    <header class="app-header">
+      <div class="container header-wrap">
+        <h1>To-Do List</h1>
+        <button id="btn-open-modal" class="btn primary">+ เพิ่มงาน</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Summary -->
+      <section class="summary-card">
+        <div class="metric">
+          <div class="metric-label">งานค้าง</div>   <!-- ← เปลี่ยนข้อความ -->
+          <div id="summary-pending" class="metric-value">0</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">งานเสร็จแล้ว</div>
+          <div id="summary-done" class="metric-value">0</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">ทั้งหมด</div>
+          <div id="summary-total" class="metric-value">0</div>
+        </div>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls-card">
+        <div class="controls-grid">
+          <input id="search-input" class="input" placeholder="ค้นหาชื่อ/รายละเอียดงาน..." />
+          <select id="status-filter" class="input">
+            <option value="">สถานะทั้งหมด</option>
+            <option value="todo">งานค้าง</option>
+            <option value="done">เสร็จแล้ว</option>
+            <option value="archived">เก็บถาวร</option>
+          </select>
+          <input id="tag-filter" class="input" placeholder="กรองแท็ก (เช่น work)" />
+          <select id="sort-select" class="input">
+            <option value="created_at|desc">ใหม่ล่าสุด</option>
+            <option value="updated_at|desc">อัปเดตล่าสุด</option>
+            <option value="due_date|asc">ใกล้ครบกำหนด</option>
+            <option value="priority|desc">ความสำคัญสูงก่อน</option>
+          </select>
+          <div class="controls-actions">
+            <button id="btn-apply-filter" class="btn">ค้นหาด้วยตัวกรอง</button> <!-- ← เปลี่ยนข้อความ -->
+            <button id="btn-clear-filter" class="btn ghost">ล้างตัวกรอง</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Task List -->
+      <main id="task-list" class="task-grid" aria-live="polite"></main>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="task-modal"
+       class="modal hidden"
+       role="dialog"
+       aria-modal="true">
+    <div class="modal-content" role="document" tabindex="-1">
+      <div class="modal-header">
+        <h2 id="modal-title">เพิ่มงาน</h2>
+        <button id="modal-close" class="icon-btn" aria-label="ปิด">✕</button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id"/>
+        <div class="form-row">
+          <label for="task-title">หัวข้องาน <span class="req">*</span></label>
+          <input id="task-title" class="input" required placeholder="เช่น อ่านเอกสาร, ทำการบ้าน"/>
+        </div>
+        <div class="form-row">
+          <label for="task-desc">รายละเอียด</label>
+          <textarea id="task-desc" class="input" rows="3" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+        </div>
+        <div class="form-grid">
+          <div>
+            <label for="task-due">กำหนดส่ง</label>
+            <input id="task-due" class="input" type="date"/>
+          </div>
+          <div>
+            <label for="task-priority">ความสำคัญ</label>
+            <select id="task-priority" class="input">
+              <option value="0">ปกติ</option>
+              <option value="1">สูง</option>
+              <option value="2">ด่วน</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="task-tags">แท็ก (คั่นด้วยคอมม่า เช่น work,home)</label>
+          <input id="task-tags" class="input" placeholder="work,home"/>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="btn-cancel" class="btn ghost">ยกเลิก</button>
+          <button type="submit" class="btn primary">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

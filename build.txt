@@ -1,0 +1,29 @@
+cd backend
+
+docker build -t todo-frontend .
+
+docker run -p 5000:5000 todo-backend 
+
+cd frontend
+
+docker build -t todo-backend .
+
+docker run -p 80:80 todo-frontend
+
+/////////////////////////////////////////////////////////
+# Backend
+docker build -t todo-backend:latest ./backend
+
+# Frontend
+docker build -t todo-frontend:latest ./frontend
+
+====================================================
+
+
+ตั้งค่า docker-env ให้ Minikube
+minikube -p minikube docker-env | Invoke-Expression
+
+
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f frontend-deployment.yaml
+
